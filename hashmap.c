@@ -345,6 +345,20 @@ int hashmap_iterate(map_t in, PFany f, any_t item) {
     return MAP_OK;
 }
 
+// quick hack for exporting key/data iteration
+void hashmap_itr(map_t in, PFany f) {
+    hashmap_map *m = (hashmap_map*)in;
+
+    if (hashmap_length(m) <= 0)
+        return;
+    for (int i=0; i < m->table_size; i++) {
+        if (m->data[i].in_use != 0) {
+            f(m->data[i].key, m->data[i].data);
+        }
+    }
+}
+
+
 /*
  * Remove an element with that key from the map
  */
